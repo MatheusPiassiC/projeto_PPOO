@@ -34,6 +34,21 @@ public class JanelaSimulacao extends JFrame{
                 }
             }
         }
+        for (int i = 0; i < mapa.getAltura(); i++) {
+            for (int j = 0; j < mapa.getLargura(); j++) {
+                if (mapa.getCancela(i, j) != null) { // Se existir uma cancela na posição (i, j)
+                    Cancela cancela = mapa.getCancela(i, j); // Cria um objeto Cancela que é igual ao que está nesta posição do mapa
+                    Localizacao localizacaoCabine = cancela.getLocalizacaoCabine(); // Pega a localização da cancela
+                    visaoMapa.desenharImagem(localizacaoCabine.getX(), localizacaoCabine.getY(), cancela.getImagem()); // Imprime a cancela na posição que ela foi
+                    
+                    // Desenha os cones associados à cancela
+                    for (Localizacao localizacaoCone : cancela.getCones()) {
+                        visaoMapa.desenharImagem(localizacaoCone.getX(), localizacaoCone.getY(), cancela.getImagemCones()); // Imprime o cone na posição que ele foi
+                    }
+                }
+            }
+        }
+
         visaoMapa.repaint();
     }
 

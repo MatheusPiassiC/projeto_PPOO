@@ -3,6 +3,7 @@
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class Mapa {
+    private Cancela[][] itensCancelas;
     private Veiculo[][] itens;
     private int largura;
     private int altura;
@@ -18,7 +19,8 @@ public class Mapa {
     public Mapa(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
-        itens = new Veiculo[altura][largura]; //Matriz de veículos? Para saber onde cada um está na matriz 
+        itens = new Veiculo[altura][largura]; //Matriz de veículos? Para saber onde cada um está na matriz
+        itensCancelas = new Cancela[altura][largura]; // Matriz de cancelas 
     }
     /**
      * Cria mapa com tamanho padrao.
@@ -29,6 +31,10 @@ public class Mapa {
     
     public void adicionarItem(Veiculo v){//adiciona um veiculo em suas respectivas coordenadas
         itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = v;
+    }
+
+    public void adicionarCancela(Cancela cancela) {
+        itensCancelas[cancela.getLocalizacaoCabine().getX()][cancela.getLocalizacaoCabine().getY()] = cancela;
     }
     
     public void removerItem(Veiculo v){//remove um item de sua coordenada
@@ -42,6 +48,10 @@ public class Mapa {
     
     public Veiculo getItem(int x, int y){
         return itens[x][y];
+    }
+
+    public Cancela getCancela(int x, int y) {
+        return itensCancelas[x][y];
     }
 
     public int getLargura() {
