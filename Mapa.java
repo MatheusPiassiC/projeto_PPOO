@@ -51,5 +51,11 @@ public class Mapa {
     public int getAltura() {
         return altura;
     }
+
+    public boolean estaOcupado(int x, int y){
+        return itens[x][y] != null;
+    }
     
 }
+
+

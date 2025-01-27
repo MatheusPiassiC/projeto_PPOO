@@ -1,10 +1,12 @@
+import java.util.ArrayList;
 import java.util.Random;
 /**
  * Responsavel pela simulacao.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class Simulacao {
-    private Veiculo veiculo;
+    private ArrayList<Veiculo> veiculos;
+    private ArrayList<Pedagio> pedagios;
     private JanelaSimulacao janelaSimulacao;
     private Mapa mapa;
     
@@ -13,26 +15,43 @@ public class Simulacao {
         mapa = new Mapa();
         int largura = mapa.getLargura();
         int altura = mapa.getAltura();
-        //veiculo = new Veiculo(new Localizacao(rand.nextInt(largura),rand.nextInt(altura)));//Cria um veiculo em uma posicao aleatoria
-        veiculo = new Veiculo(new Localizacao(0,0));
-        //veiculo.setLocalizacaoDestino(new Localizacao(rand.nextInt(largura),rand.nextInt(altura)));//Define a posicao destino aleatoriamente
-        veiculo.setLocalizacaoDestino(new Localizacao(34,34)); //Vai de um canto ao outro da janela
-        mapa.adicionarItem(veiculo);//Inicializando o mapa com o veículo
-        janelaSimulacao = new JanelaSimulacao(mapa);//Cria a janela com as informações do mapa
+        veiculos = new ArrayList<Veiculo>();
+        pedagios = new ArrayList<Pedagio>();
+
+        // Inicializa veículos
+        for (int i = 0; i < 10; i++) {
+            Veiculo veiculo = new Veiculo(new Localizacao(rand.nextInt(largura), rand.nextInt(altura)));
+            veiculo.setLocalizacaoDestino(new Localizacao(34, 34));
+            veiculos.add(veiculo);
+            mapa.adicionarItem(veiculo);
+        }
+
+        // Inicializa pedágios
+        //for (int i = 0; i < 6; i++) {
+        //    Pedagio pedagio = new Pedagio();
+        //    pedagios.add(pedagio);
+        //    // Adicionar pedágio ao mapa em uma posição específica
+        //   mapa.adicionarItem(pedagio); // Supondo que o mapa possa adicionar pedágios
+        //}
+
+        janelaSimulacao = new JanelaSimulacao(mapa);
     }
     
     public void executarSimulacao(int numPassos){
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            esperar(300); //Define a velocidade da animação
+            esperar(200); //Define a velocidade da animação
         }        
     }
 
     private void executarUmPasso() {
-        mapa.removerItem(veiculo); //apaga o eiculo
-        veiculo.executarAcao(); //anda uma posição
-        mapa.adicionarItem(veiculo); //adiciona o veículo em sua nova posição
+        for (Veiculo veiculo : veiculos){
+            mapa.removerItem(veiculo); //apaga o veiculo
+            veiculo.executarAcao(); //anda uma posição
+            mapa.adicionarItem(veiculo); //adiciona o veículo em sua nova posição
+        }
+
         janelaSimulacao.executarAcao(); //atualiza a janela
     }
     
