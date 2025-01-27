@@ -28,7 +28,7 @@ public class Simulacao {
 
         // Inicializa pedágios
         for (int i = 0; i < 6; i++) {
-            Pedagio pedagio = new Pedagio(new Localizacao(10+2*i, 10));
+            Pedagio pedagio = new Pedagio(new Localizacao(10+3*i, 10));
             pedagios.add(pedagio);
             // Adicionar pedágio ao mapa em uma posição específica
             mapa.adicionarItem(pedagio); // Supondo que o mapa possa adicionar pedágios
