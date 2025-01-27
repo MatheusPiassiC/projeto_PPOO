@@ -3,7 +3,7 @@
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class Mapa {
-    private Veiculo[][] itens;
+    private Item[][] itens;
     private int largura;
     private int altura;
     
@@ -18,7 +18,7 @@ public class Mapa {
     public Mapa(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
-        itens = new Veiculo[altura][largura]; //Matriz de veículos? Para saber onde cada um está na matriz 
+        itens = new Item[altura][largura]; //Matriz de veículos? Para saber onde cada um está na matriz 
     }
     /**
      * Cria mapa com tamanho padrao.
@@ -27,20 +27,20 @@ public class Mapa {
         this(LARGURA_PADRAO,ALTURA_PADRAO);
     }
     
-    public void adicionarItem(Veiculo v){//adiciona um veiculo em suas respectivas coordenadas
+    public void adicionarItem(Item v){//adiciona um veiculo em suas respectivas coordenadas
         itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = v;
     }
     
-    public void removerItem(Veiculo v){//remove um item de sua coordenada
+    public void removerItem(Item v){//remove um item de sua coordenada
         itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = null;
     }
     
-    public void atualizarMapa(Veiculo v){//
+    public void atualizarMapa(Item v){//
         removerItem(v);
         adicionarItem(v);
     }
     
-    public Veiculo getItem(int x, int y){
+    public Item getItem(int x, int y){
         return itens[x][y];
     }
 

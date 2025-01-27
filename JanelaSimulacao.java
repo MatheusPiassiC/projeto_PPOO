@@ -28,9 +28,9 @@ public class JanelaSimulacao extends JFrame{
         for(int i = 0; i < mapa.getAltura(); i++){
             for(int j = 0; j < mapa.getLargura(); j++){
                 if(mapa.getItem(i, j) != null){//Se existir algum objeto na posicao (i,j)
-                    Veiculo veiculo = mapa.getItem(i, j);//Cria um onjeto Veiculos que é igual ao que está nesta posição do mapa
-                    Localizacao localizacao = veiculo.getLocalizacaoAtual();//Pega a localização do veiculo
-                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), veiculo.getImagem());//Imprime o veiculo na posição que ele foi
+                    Item item = mapa.getItem(i, j);//Cria um onjeto Veiculos que é igual ao que está nesta posição do mapa
+                    Localizacao localizacao = item.getLocalizacaoAtual();//Pega a localização do item
+                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), item.getImagem());//Imprime o veiculo na posição que ele foi
                 }
             }
         }
