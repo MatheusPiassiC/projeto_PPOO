@@ -1,8 +1,8 @@
-public class Veiculo extends Item {
+public abstract class Veiculo extends Item {
     private Localizacao localizacaoDestino;
 
-    public Veiculo(Localizacao localizacao) {
-        super(localizacao, "Imagens/veiculo.png");
+    public Veiculo(Localizacao localizacao, String imagem) {
+        super(localizacao, imagem);
         this.localizacaoDestino = null;
     }
 

@@ -8,6 +8,7 @@ public class Simulacao {
     private ArrayList<Veiculo> veiculos;
     private ArrayList<Pedagio> pedagios;
     private JanelaSimulacao janelaSimulacao;
+    private boolean alternarVeiculo = false;
     private Mapa mapa;
     
     public Simulacao() {
@@ -19,15 +20,15 @@ public class Simulacao {
         pedagios = new ArrayList<Pedagio>();
 
         // Inicializa veículos
-        for (int i = 0; i < 10; i++) {
-            Veiculo veiculo = new Veiculo(new Localizacao(rand.nextInt(largura), rand.nextInt(altura)));
+        /* for (int i = 0; i < 10; i++) {
+            Veiculo veiculo = new Carro(new Localizacao(rand.nextInt(largura), rand.nextInt(altura)));
             veiculo.setLocalizacaoDestino(new Localizacao(34, 34));
             veiculos.add(veiculo);
             mapa.adicionarItem(veiculo);
         }
-
+ */
         // Inicializa pedágios
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             Pedagio pedagio = new Pedagio(new Localizacao(10+3*i, 10));
             pedagios.add(pedagio);
             // Adicionar pedágio ao mapa em uma posição específica
@@ -41,24 +42,30 @@ public class Simulacao {
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            esperar(1000); //Define a velocidade da animação
+            esperar(2000); //Define a velocidade da animação
         }        
     }
 
     private void executarUmPasso() {
-        /* 
-        for (Veiculo veiculo : veiculos){
+        
+        /* for (Veiculo veiculo : veiculos){
             mapa.removerItem(veiculo); //apaga o veiculo
             veiculo.executarAcao(); //anda uma posição
             mapa.adicionarItem(veiculo); //adiciona o veículo em sua nova posição
-        }
-        */
+        } */
+       
 
-        Veiculo v;
+            Veiculo v;
         for (Pedagio pedagio: pedagios){
             int x = pedagio.getLocalizacaoAtual().getX();
             int y = pedagio.getLocalizacaoAtual().getY();
-            v = new Veiculo(new Localizacao(x+1, y+7));
+            
+            if (alternarVeiculo) {
+                v = new Carro(new Localizacao(x+1, y+7));
+            } else {
+                v = new Caminhao(new Localizacao(x+1, y+7), 10.0, 2); // Exemplo de capacidade de carga e número de eixos
+            }
+            
             v.setLocalizacaoDestino(new Localizacao(x+1, y));
             pedagio.adicionarCarro(v);
             
@@ -68,6 +75,8 @@ public class Simulacao {
                 mapa.adicionarItem(vQueue);
             }
             mapa.adicionarItem(v);
+            
+            alternarVeiculo = !alternarVeiculo; // Alterna o tipo de veículo para a próxima iteração
         }
 
         janelaSimulacao.executarAcao(); //atualiza a janela
