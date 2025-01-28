@@ -19,16 +19,23 @@ public class Simulacao {
         pedagios = new ArrayList<Pedagio>();
 
         // Inicializa veículos
-        for (int i = 0; i < 10; i++) {
+        /* for (int i = 0; i < 10; i++) {
             Veiculo veiculo = new Veiculo(new Localizacao(rand.nextInt(largura), rand.nextInt(altura)));
             veiculo.setLocalizacaoDestino(new Localizacao(34, 34));
             veiculos.add(veiculo);
             mapa.adicionarItem(veiculo);
-        }
+        } */
 
         // Inicializa pedágios
-        for (int i = 0; i < 6; i++) {
-            Pedagio pedagio = new Pedagio(new Localizacao(10+3*i, 10));
+        for (int i = 0; i < 3; i++) {
+            PedagioAuto pedagio = new PedagioAuto(new Localizacao(10+3*i, 10));
+            pedagios.add(pedagio);
+            // Adicionar pedágio ao mapa em uma posição específica
+            mapa.adicionarItem(pedagio); // Supondo que o mapa possa adicionar pedágios
+        }
+
+        for (int i = 3; i < 6; i++) {
+            PedagioPessoa pedagio = new PedagioPessoa(new Localizacao(10+3*i, 10));
             pedagios.add(pedagio);
             // Adicionar pedágio ao mapa em uma posição específica
             mapa.adicionarItem(pedagio); // Supondo que o mapa possa adicionar pedágios
