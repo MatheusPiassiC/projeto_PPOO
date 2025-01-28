@@ -41,15 +41,33 @@ public class Simulacao {
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            esperar(200); //Define a velocidade da animação
+            esperar(1000); //Define a velocidade da animação
         }        
     }
 
     private void executarUmPasso() {
+        /* 
         for (Veiculo veiculo : veiculos){
             mapa.removerItem(veiculo); //apaga o veiculo
             veiculo.executarAcao(); //anda uma posição
             mapa.adicionarItem(veiculo); //adiciona o veículo em sua nova posição
+        }
+        */
+
+        Veiculo v;
+        for (Pedagio pedagio: pedagios){
+            int x = pedagio.getLocalizacaoAtual().getX();
+            int y = pedagio.getLocalizacaoAtual().getY();
+            v = new Veiculo(new Localizacao(x+1, y+7));
+            v.setLocalizacaoDestino(new Localizacao(x+1, y));
+            pedagio.adicionarCarro(v);
+            
+            for(Veiculo vQueue: pedagio.getFilaCarros()){
+                mapa.removerItem(vQueue);
+                vQueue.executarAcao();
+                mapa.adicionarItem(vQueue);
+            }
+            mapa.adicionarItem(v);
         }
 
         janelaSimulacao.executarAcao(); //atualiza a janela

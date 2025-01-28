@@ -21,8 +21,8 @@ public class Mapa {
         itens[loc.getX()][loc.getY()] = item;
 
         if (item instanceof Pedagio) {
-            Pedagio pedagio = (Pedagio) item;
-            for (Cone cone : pedagio.getCones()) {
+            Pedagio pedagio = (Pedagio) item; //converte item para a classe Pedagio
+            for (Cone cone : pedagio.getCones()) { //Para conseguir chamar os métodos de Pedágio
                 Localizacao locCone = cone.getLocalizacaoAtual();
                 itens[locCone.getX()][locCone.getY()] = cone;
             }
