@@ -1,16 +1,14 @@
 public class Carro extends Veiculo {
-    public Carro(Localizacao localizacao) {
-        super(localizacao, "Imagens/carro.png");
-    }
+    private double peso;
 
-    @Override
-    public void executarAcao() {
-        super.executarAcao();
-        // Adicione ações específicas para Carro, se necessário
+    public Carro(Localizacao localizacao, double peso) {
+        super(localizacao, "Imagens/carro.png");
+        this.peso = peso;
+
     }
 
     @Override
     public int getTempoAtendimento() {
-        return 2; // Tempo de atendimento para carros
+        return (int)peso/100; // Tempo de atendimento para carros
     }
 }

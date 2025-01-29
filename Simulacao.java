@@ -12,7 +12,6 @@ public class Simulacao {
 
     public Simulacao() {
         mapa = new Mapa();
-
         for (int i = 0; i < 5; i++) {
             Pedagio pedagio;
             if (i % 2 == 0) {
@@ -42,10 +41,13 @@ public class Simulacao {
             int y = pedagio.getLocalizacaoAtual().getY();
 
             if (!mapa.estaOcupado(new Localizacao(x + 1, y + 7))) {
-                if (alternarVeiculo) {
-                    v = new Carro(new Localizacao(x + 1, y + 7));
+                Random random = new Random();
+                if (alternarVeiculo) { // Alterna entre carro e caminhão
+                    double peso = 100 + (random.nextDouble() * 400); // peso maior que 100 e menor que 500
+                    v = new Carro(new Localizacao(x + 1, y + 7), peso); // Exemplo de número de passageiros
                 } else {
-                    v = new Caminhao(new Localizacao(x + 1, y + 7), 10.0, 2); // Exemplo de capacidade de carga e número de eixos
+                    int numeroDeEixos = 2 + random.nextInt(2); // Exemplo de número de eixos
+                    v = new Caminhao(new Localizacao(x + 1, y + 7), numeroDeEixos); // Exemplo de capacidade de carga e número de eixos
                 }
 
                 v.setLocalizacaoDestino(new Localizacao(x + 1, y));
