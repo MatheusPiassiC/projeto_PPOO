@@ -23,16 +23,16 @@ public class Pedagio extends Item {
         cones.add(new Cone(new Localizacao(x + 2, y + 2)));
     }
 
-    public Queue<Veiculo> getFilaCarros() {
-        return filaCarros;
-    }
-
     public List<Cone> getCones() {
         return cones;
     }
 
     public void adicionarCarro(Veiculo veiculo) {
         filaCarros.add(veiculo);
+    }
+
+    public Queue<Veiculo> getFilaCarros() {
+        return filaCarros;
     }
 
     public void processarCarro() {

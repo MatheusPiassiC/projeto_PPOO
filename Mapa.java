@@ -59,7 +59,7 @@ public class Mapa {
         return altura;
     }
 
-    public boolean estaOcupado(int x, int y) {
-        return itens[x][y] != null;
+    public boolean estaOcupado(Localizacao loc) {
+        return itens[loc.getX()][loc.getY()] != null;
     }
 }

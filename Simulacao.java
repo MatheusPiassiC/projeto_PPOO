@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Iterator;
+import java.util.Queue;
 /**
  * Responsavel pela simulacao.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -42,7 +45,7 @@ public class Simulacao {
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
             executarUmPasso();
-            esperar(2000); //Define a velocidade da animação
+            esperar(1000); //Define a velocidade da animação
         }        
     }
 
@@ -52,31 +55,54 @@ public class Simulacao {
             mapa.removerItem(veiculo); //apaga o veiculo
             veiculo.executarAcao(); //anda uma posição
             mapa.adicionarItem(veiculo); //adiciona o veículo em sua nova posição
-        } */
-       
-
-            Veiculo v;
+            } */
+           
+           
+        //int cont = 0;
+        Veiculo v;
         for (Pedagio pedagio: pedagios){
             int x = pedagio.getLocalizacaoAtual().getX();
             int y = pedagio.getLocalizacaoAtual().getY();
-            
-            if (alternarVeiculo) {
-                v = new Carro(new Localizacao(x+1, y+7));
-            } else {
-                v = new Caminhao(new Localizacao(x+1, y+7), 10.0, 2); // Exemplo de capacidade de carga e número de eixos
+            if(!mapa.estaOcupado(new Localizacao(x+1, y+7))){
+                if (alternarVeiculo) {
+                    v = new Carro(new Localizacao(x+1, y+7));
+                } else {
+                    v = new Caminhao(new Localizacao(x+1, y+7), 10.0, 2); // Exemplo de capacidade de carga e número de eixos
+                }
+                
+                v.setLocalizacaoDestino(new Localizacao(x+1, y));
+                pedagio.adicionarCarro(v);
+                
+                /* for(Veiculo vQueue: pedagio.getFilaCarros()){
+                    mapa.removerItem(vQueue);
+                    vQueue.executarAcao();
+                    mapa.adicionarItem(vQueue);
+                } */
+                mapa.adicionarItem(v);
             }
-            
-            v.setLocalizacaoDestino(new Localizacao(x+1, y));
-            pedagio.adicionarCarro(v);
-            
-            for(Veiculo vQueue: pedagio.getFilaCarros()){
-                mapa.removerItem(vQueue);
-                vQueue.executarAcao();
-                mapa.adicionarItem(vQueue);
-            }
-            mapa.adicionarItem(v);
             
             alternarVeiculo = !alternarVeiculo; // Alterna o tipo de veículo para a próxima iteração
+            Queue<Veiculo> filaCarros = pedagio.getFilaCarros();
+            Iterator<Veiculo> iterator = filaCarros.iterator();
+            //cont++;
+            while (iterator.hasNext()) {
+                Veiculo veiculo = iterator.next();
+                Localizacao proximaLocalizacao = veiculo.getLocalizacaoAtual().proximaLocalizacao(veiculo.getLocalizacaoDestino());
+                // Verifica se o veículo chegou ao destino
+                if (veiculo.getLocalizacaoAtual().equals(veiculo.getLocalizacaoDestino()) /* && cont == 2 */) {
+                    mapa.removerItem(veiculo);
+                    iterator.remove(); // Remove o veículo da fila
+                    //cont = 0;
+                } else {
+                    // Verifica se o espaço à frente está vazio
+                    if (!mapa.estaOcupado(proximaLocalizacao)) {
+                        mapa.removerItem(veiculo);
+                        veiculo.executarAcao();
+                        mapa.adicionarItem(veiculo);
+                    }
+                }
+            }
+        
         }
 
         janelaSimulacao.executarAcao(); //atualiza a janela
