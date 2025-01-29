@@ -1,15 +1,43 @@
 import java.util.ArrayList;
-//import java.util.List;
 import java.util.Random;
 import java.util.Iterator;
 import java.util.Queue;
 
+/**
+ * Classe que representa a simulação do tráfego de veículos em um mapa, com interações em pedágios.
+ * A simulação alterna entre a adição de carros e caminhões e simula o movimento dos veículos.
+ * 
+ * @author Matheus Piassi
+ * @author Bernardo Pavani
+ */
 public class Simulacao {
+
+    /**
+     * Mapa que contém os itens da simulação, como os pedágios e veículos.
+     */
     private Mapa mapa;
+    
+    /**
+     * Janela de simulação para exibição visual da simulação.
+     */
     private JanelaSimulacao janelaSimulacao;
+    
+    /**
+     * Lista de pedágios na simulação.
+     */
     private ArrayList<Pedagio> pedagios = new ArrayList<>();
+    
+    /**
+     * Flag para alternar entre veículos (carro e caminhão).
+     */
     private boolean alternarVeiculo = true;
 
+    /**
+     * Construtor da classe Simulacao.
+     * Inicializa o mapa, cria os pedágios e a janela de simulação.
+     * 
+     * Adiciona 5 pedágios alternando entre {@link PedagioPessoa} e {@link PedagioAuto}.
+     */
     public Simulacao() {
         mapa = new Mapa();
         for (int i = 0; i < 5; i++) {
@@ -26,6 +54,11 @@ public class Simulacao {
         janelaSimulacao = new JanelaSimulacao(mapa);
     }
 
+    /**
+     * Executa a simulação por um número especificado de passos.
+     * 
+     * @param numPassos O número de passos (iteração) a serem executados na simulação.
+     */
     public void executarSimulacao(int numPassos) {
         janelaSimulacao.executarAcao();
         for (int i = 0; i < numPassos; i++) {
@@ -34,12 +67,16 @@ public class Simulacao {
         }
     }
 
+    /**
+     * Executa um único passo da simulação, movimentando os veículos e processando o tráfego nos pedágios.
+     */
     private void executarUmPasso() {
         Veiculo v;
         for (Pedagio pedagio : pedagios) {
             int x = pedagio.getLocalizacaoAtual().getX();
             int y = pedagio.getLocalizacaoAtual().getY();
 
+            // Verifica se há espaço para adicionar um novo veículo
             if (!mapa.estaOcupado(new Localizacao(x + 1, y + 7))) {
                 Random random = new Random();
                 if (alternarVeiculo) { // Alterna entre carro e caminhão
@@ -56,42 +93,43 @@ public class Simulacao {
                 alternarVeiculo = !alternarVeiculo; // Alterna o tipo de veículo para a próxima iteração
             }
 
-        Queue<Veiculo> filaCarros = pedagio.getFilaCarros();
-        Iterator<Veiculo> iterator = filaCarros.iterator();
-        while (iterator.hasNext()) {
-            Veiculo veiculo = iterator.next();
+            // Processa a fila de carros no pedágio
+            Queue<Veiculo> filaCarros = pedagio.getFilaCarros();
+            Iterator<Veiculo> iterator = filaCarros.iterator();
+            while (iterator.hasNext()) {
+                Veiculo veiculo = iterator.next();
                 
-            Localizacao proximaLocalizacao = veiculo.getLocalizacaoAtual().proximaLocalizacao(veiculo.getLocalizacaoDestino());
-                    // Verifica se o veículo chegou ao destino
-            if (veiculo.getLocalizacaoAtual().equals(veiculo.getLocalizacaoDestino())) {
-                veiculo.incrementarContadorAtendimento();
-                if(veiculo.getContadorAtendimento() >= veiculo.getTempoAtendimento() + pedagio.getTempoAtendimento()){
-                    mapa.removerItem(veiculo);
-                    iterator.remove(); // Remove o veículo da fila
-        
-                } 
-            } else 
-                // Verifica se o espaço à frente está vazio
-                if (!mapa.estaOcupado(proximaLocalizacao)) {
-                    if(veiculo.getPodeAvancar()){
+                // Calcula a próxima localização do veículo
+                Localizacao proximaLocalizacao = veiculo.getLocalizacaoAtual().proximaLocalizacao(veiculo.getLocalizacaoDestino());
+                
+                // Verifica se o veículo chegou ao destino
+                if (veiculo.getLocalizacaoAtual().equals(veiculo.getLocalizacaoDestino())) {
+                    veiculo.incrementarContadorAtendimento();
+                    if (veiculo.getContadorAtendimento() >= veiculo.getTempoAtendimento() + pedagio.getTempoAtendimento()) {
+                        mapa.removerItem(veiculo);
+                        iterator.remove(); // Remove o veículo da fila
+                    } 
+                } else if (!mapa.estaOcupado(proximaLocalizacao)) { // Verifica se o espaço à frente está vazio
+                    if (veiculo.getPodeAvancar()) {
                         mapa.removerItem(veiculo);
                         veiculo.executarAcao();
                         mapa.adicionarItem(veiculo);
                         veiculo.setPodeAvancar();
                     } else {
-                        veiculo.setPodeAvancar();
+                            veiculo.setPodeAvancar(); // Sem aplicação prática, serve apenas para dar um espaço em branco na animação
                     }
-                    //veiculo.setPodeAvancar();
-
                 }
-                //veiculo.resetarContadorAtendimento();
-                
             }
         }
 
         janelaSimulacao.executarAcao(); // Atualiza a janela
     }
 
+    /**
+     * Faz a simulação "esperar" por um determinado número de milissegundos.
+     * 
+     * @param milisegundos O número de milissegundos para aguardar.
+     */
     private void esperar(int milisegundos) {
         try {
             Thread.sleep(milisegundos);
