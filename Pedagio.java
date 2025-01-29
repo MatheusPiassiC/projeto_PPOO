@@ -7,8 +7,8 @@ public class Pedagio extends Item {
     private Queue<Veiculo> filaCarros;
     private List<Cone> cones;
 
-    public Pedagio(Localizacao localizacao) {
-        super(localizacao, "Imagens/pedagio.png");
+    public Pedagio(Localizacao localizacao, String imagemString) {
+        super(localizacao, imagemString);
         this.filaCarros = new LinkedList<>();
         this.cones = new ArrayList<>();
         inicializarCones();
