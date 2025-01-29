@@ -1,46 +1,53 @@
-/**
- * Representa um mapa com todos os itens que participam da simulacao
- * @author David J. Barnes and Michael Kolling and Luiz Merschmann
- */
 public class Mapa {
-    private Veiculo[][] itens;
+    private Item[][] itens;
     private int largura;
     private int altura;
-    
-    private static final int LARGURA_PADRAO = 35; //define o número de quadras na janela/mapa
+
+    private static final int LARGURA_PADRAO = 35;
     private static final int ALTURA_PADRAO = 35;
-    
-    /**
-     * Cria mapa para alocar itens da simulacao.
-     * @param largura: largura da área de simulacao.
-     * @param altura: altura da área de simulação.
-     */
+
     public Mapa(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
-        itens = new Veiculo[altura][largura]; //Matriz de veículos? Para saber onde cada um está na matriz 
+        itens = new Item[altura][largura];
     }
-    /**
-     * Cria mapa com tamanho padrao.
-     */
-    public Mapa(){
-        this(LARGURA_PADRAO,ALTURA_PADRAO);
+
+    public Mapa() {
+        this(LARGURA_PADRAO, ALTURA_PADRAO);
     }
-    
-    public void adicionarItem(Veiculo v){//adiciona um veiculo em suas respectivas coordenadas
-        itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = v;
+
+    public void adicionarItem(Item item) {
+        Localizacao loc = item.getLocalizacaoAtual();
+        itens[loc.getX()][loc.getY()] = item;
+
+        if (item instanceof Pedagio) {
+            Pedagio pedagio = (Pedagio) item; //converte item para a classe Pedagio
+            for (Cone cone : pedagio.getCones()) { //Para conseguir chamar os métodos de Pedágio
+                Localizacao locCone = cone.getLocalizacaoAtual();
+                itens[locCone.getX()][locCone.getY()] = cone;
+            }
+        }
     }
-    
-    public void removerItem(Veiculo v){//remove um item de sua coordenada
-        itens[v.getLocalizacaoAtual().getX()][v.getLocalizacaoAtual().getY()] = null;
+
+    public void removerItem(Item item) {
+        Localizacao loc = item.getLocalizacaoAtual();
+        itens[loc.getX()][loc.getY()] = null;
+
+        if (item instanceof Pedagio) {
+            Pedagio pedagio = (Pedagio) item;
+            for (Cone cone : pedagio.getCones()) {
+                Localizacao locCone = cone.getLocalizacaoAtual();
+                itens[locCone.getX()][locCone.getY()] = null;
+            }
+        }
     }
-    
-    public void atualizarMapa(Veiculo v){//
-        removerItem(v);
-        adicionarItem(v);
+
+    public void atualizarMapa(Item item) {
+        removerItem(item);
+        adicionarItem(item);
     }
-    
-    public Veiculo getItem(int x, int y){
+
+    public Item getItem(int x, int y) {
         return itens[x][y];
     }
 
@@ -51,5 +58,8 @@ public class Mapa {
     public int getAltura() {
         return altura;
     }
-    
+
+    public boolean estaOcupado(Localizacao loc) {
+        return itens[loc.getX()][loc.getY()] != null;
+    }
 }
