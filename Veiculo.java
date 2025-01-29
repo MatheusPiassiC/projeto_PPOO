@@ -39,7 +39,6 @@ public abstract class Veiculo extends Item {
         return podeAvancar;
     }
 
-    @Override
     public void executarAcao() {
         Localizacao destino = getLocalizacaoDestino();
         if (destino != null) {

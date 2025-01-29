@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.List;
+//import java.util.List;
 import java.util.Random;
 import java.util.Iterator;
 import java.util.Queue;
@@ -7,7 +7,7 @@ import java.util.Queue;
 public class Simulacao {
     private Mapa mapa;
     private JanelaSimulacao janelaSimulacao;
-    private List<Pedagio> pedagios = new ArrayList<>();
+    private ArrayList<Pedagio> pedagios = new ArrayList<>();
     private boolean alternarVeiculo = true;
 
     public Simulacao() {

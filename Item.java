@@ -21,6 +21,4 @@ public abstract class Item {
     public Image getImagem() {
         return imagem;
     }
-
-    public abstract void executarAcao();
 }

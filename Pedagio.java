@@ -35,21 +35,5 @@ public abstract class Pedagio extends Item {
         return filaCarros;
     }
 
-    public void processarCarro() {
-        if (!filaCarros.isEmpty()) {
-            Veiculo veiculo = filaCarros.peek();
-            veiculo.incrementarContadorAtendimento();
-            if (veiculo.getContadorAtendimento() >= getTempoAtendimento()) {
-                filaCarros.poll();
-                veiculo.resetarContadorAtendimento();
-            }
-        }
-    }
-
     public abstract int getTempoAtendimento();
-
-    @Override
-    public void executarAcao() {
-        processarCarro();
-    }
 }
