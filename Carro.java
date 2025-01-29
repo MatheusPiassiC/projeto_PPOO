@@ -8,4 +8,9 @@ public class Carro extends Veiculo {
         super.executarAcao();
         // Adicione ações específicas para Carro, se necessário
     }
+
+    @Override
+    public int getTempoAtendimento() {
+        return 2; // Tempo de atendimento para carros
+    }
 }

@@ -23,6 +23,11 @@ public class Caminhao extends Veiculo {
     }
 
     @Override
+    public int getTempoAtendimento() {
+        return 3; // Tempo de atendimento para caminhões
+    }
+
+    @Override
     public String toString() {
         return super.toString() + ", Capacidade de Carga: " + capacidadeDeCarga + " toneladas, Número de Eixos: " + numeroDeEixos;
     }

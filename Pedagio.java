@@ -3,7 +3,7 @@ import java.util.Queue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pedagio extends Item {
+public abstract class Pedagio extends Item {
     private Queue<Veiculo> filaCarros;
     private List<Cone> cones;
 
@@ -37,10 +37,16 @@ public class Pedagio extends Item {
 
     public void processarCarro() {
         if (!filaCarros.isEmpty()) {
-            Veiculo veiculo = filaCarros.poll();
-            // Processar o veículo (ex: cobrar pedágio, liberar passagem, etc.)
+            Veiculo veiculo = filaCarros.peek();
+            veiculo.incrementarContadorAtendimento();
+            if (veiculo.getContadorAtendimento() >= getTempoAtendimento()) {
+                filaCarros.poll();
+                veiculo.resetarContadorAtendimento();
+            }
         }
     }
+
+    public abstract int getTempoAtendimento();
 
     @Override
     public void executarAcao() {
